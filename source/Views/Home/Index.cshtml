@@ -1,0 +1,25 @@
+﻿<div class="row">
+    <div id="trace" class="col-md-8 col-md-offset-2">
+        
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(function() {
+            var trace = $.connection.traceHub;
+
+            trace.client.traceEntry = function(hook, identity, payload) {
+                var title = '<h4>' + hook + ' <small>' + identity + '</small></h4>';
+                var content = $('<p />').text(payload).html();
+
+                $('#trace').append('<div>' + title + content + '</div>');
+            };
+
+            //$.connection.hub.logging = true;
+            $.connection.hub.start().done(function() {
+                $('#trace').append('<p class="text-success"><span class="glyphicon glyphicon-ok"> Ready</p>');
+            });
+        });
+    </script>
+}
